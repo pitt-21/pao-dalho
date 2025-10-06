@@ -6,101 +6,175 @@
   <title>Pão d'Alho MB WAY</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --cor-principal: #1f1f1f;
+      --cor-hover: #333;
+      --cor-fundo: #f8f5f0;
+      --cor-destaque: #d89b3d;
+      --cor-branco: #fff;
+      --sombra: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
     body {
       font-family: 'Quicksand', sans-serif;
       margin: 0 auto;
       max-width: 600px;
-      background-color: #f8f5f0;
+      background-color: var(--cor-fundo);
       color: #222;
       padding: 1.5em;
+      transition: background-color 0.4s ease;
     }
+
     h1 {
       color: #2a2a2a;
       text-align: center;
       margin-top: 0.5em;
+      letter-spacing: 0.5px;
+      animation: fadeDown 0.7s ease-out;
     }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .aviso {
       background: #fff2e0;
-      border-left: 4px solid #d89b3d;
+      border-left: 4px solid var(--cor-destaque);
       padding: 12px 14px;
       margin-bottom: 15px;
       border-radius: 6px;
       font-size: 0.95em;
       color: #4b3d1f;
+      box-shadow: var(--sombra);
+      animation: fadeIn 1s ease-out;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
     .mono {
       background: #f0f0f0;
-      padding: 3px 6px;
-      border-radius: 4px;
+      padding: 6px 10px;
+      border-radius: 8px;
       font-weight: 600;
+      display: inline-block;
+      box-shadow: var(--sombra);
     }
+
     .categoria {
       background: #fffaf3;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 12px;
       margin: 20px 0;
-      padding: 10px 15px;
+      padding: 15px 18px;
+      box-shadow: var(--sombra);
+      transition: transform 0.2s ease;
     }
+    .categoria:hover {
+      transform: scale(1.01);
+    }
+
     .categoria h2 {
       color: #3b3b3b;
       border-bottom: 1px solid #ccc;
       padding-bottom: 4px;
+      margin-top: 0;
     }
+
     .item {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin: 8px 0;
+      transition: background 0.2s;
+      border-radius: 6px;
+      padding: 3px 6px;
     }
+    .item:hover {
+      background: rgba(255, 255, 255, 0.7);
+    }
+
     .item-name {
       font-weight: 600;
     }
+
     select {
-      padding: 4px;
+      padding: 5px 8px;
       font-size: 1em;
       border-radius: 6px;
       border: 1px solid #bbb;
       background: #fff;
+      cursor: pointer;
     }
+
     #pagamento {
       font-size: 1.4em;
       font-weight: bold;
       margin-top: 12px;
       text-align: center;
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px;
+      box-shadow: var(--sombra);
     }
+
     #info {
       text-align: center;
-      margin-top: 8px;
+      margin-top: 10px;
       font-size: 0.95em;
       color: #444;
+      line-height: 1.4em;
     }
+
     button {
       display: block;
       width: 100%;
       margin-top: 1em;
-      padding: 10px 15px;
-      background: #1f1f1f;
-      color: white;
+      padding: 12px 15px;
+      background: var(--cor-principal);
+      color: var(--cor-branco);
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
-      transition: 0.2s;
+      transition: background 0.3s, transform 0.15s;
+      box-shadow: var(--sombra);
     }
+
     button:hover {
-      background: #333;
+      background: var(--cor-hover);
+      transform: translateY(-2px);
     }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
     #msg {
       text-align: center;
       margin-top: 10px;
       font-size: 0.95em;
+      color: #2a2a2a;
+      min-height: 1.2em;
+      transition: opacity 0.4s ease;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8em;
+      color: #666;
+      margin-top: 2em;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
 
   <p class="aviso">
-    Infelizmente o nosso terminal multibanco está temporiariamente fora de serviço.
+    Infelizmente o nosso terminal multibanco está temporariamente fora de serviço.
     Para pagamentos MB WAY envie para um dos seguintes destinatários.
   </p>
 
@@ -118,6 +192,8 @@
   <button id="copiar">Copiar número</button>
   <button id="mbway">MB WAY</button>
   <p id="msg"></p>
+
+  <footer>© 2025 Pão d'Alho — Todos os direitos reservados</footer>
 
   <script>
     const produtos = {
@@ -140,8 +216,8 @@
     };
 
     const params = new URLSearchParams(window.location.search);
-    const numero = params.get("para") || "—";
-    document.getElementById("para").textContent = "Sr. Filipe – " + numero;
+    const numero = (params.get("para") || "—").replace(/[^\d+]/g, ""); // sanitiza entrada
+    document.getElementById("para").textContent = "Pão D’alho – " + numero;
 
     const lista = document.getElementById("lista");
     const quantidades = {};
@@ -170,51 +246,53 @@
           select.appendChild(opt);
         }
 
-        select.onchange = () => {
+        select.addEventListener("change", () => {
           quantidades[p.nome] = Number(select.value);
           calcularTotal();
-        };
+        });
 
         const preco = document.createElement("span");
         preco.textContent = p.preco.toFixed(2) + " €";
 
         const right = document.createElement("div");
-        right.appendChild(preco);
-        right.appendChild(select);
         right.style.display = "flex";
-        right.style.gap = "10px";
         right.style.alignItems = "center";
+        right.style.gap = "10px";
+        right.append(preco, select);
 
-        div.appendChild(nome);
-        div.appendChild(right);
-        catDiv.appendChild(div);
+        div.append(nome, right);
+        catDiv.append(div);
 
         quantidades[p.nome] = 0;
       });
 
-      lista.appendChild(catDiv);
+      lista.append(catDiv);
     }
 
     function calcularTotal() {
-      total = Object.values(produtos)
-        .flat()
+      total = Object.values(produtos).flat()
         .reduce((acc, p) => acc + p.preco * (quantidades[p.nome] || 0), 0);
-      document.getElementById("pagamento").textContent =
-        "Pagamento total: " + total.toFixed(2).replace(".", ",") + " €";
+      const valorFormatado = total.toFixed(2).replace(".", ",");
+      const elementoPagamento = document.getElementById("pagamento");
+      elementoPagamento.textContent = "Pagamento total: " + valorFormatado + " €";
+
+      elementoPagamento.style.background = total > 0 ? "#fff8e6" : "#fff";
+      elementoPagamento.style.transition = "background 0.4s ease";
     }
 
     document.getElementById("reset").onclick = () => {
-      document.querySelectorAll("select").forEach(s => (s.value = 0));
-      for (let k in quantidades) quantidades[k] = 0;
+      document.querySelectorAll("select").forEach(s => s.value = 0);
+      Object.keys(quantidades).forEach(k => quantidades[k] = 0);
       calcularTotal();
+      mostrarMensagem("Seleção reiniciada.", "#444");
     };
 
     document.getElementById("copiar").onclick = async () => {
       try {
         await navigator.clipboard.writeText(numero);
-        document.getElementById("msg").textContent = "Número copiado";
+        mostrarMensagem("Número copiado com sucesso ✅", "#2a7a2a");
       } catch {
-        document.getElementById("msg").textContent = "Não foi possível copiar.";
+        mostrarMensagem("Não foi possível copiar automaticamente.", "#b02a2a");
       }
     };
 
@@ -223,17 +301,21 @@
         alert("Por favor, selecione pelo menos um item antes de pagar.");
         return;
       }
-
       const valor = total.toFixed(2);
-      // link direto para envio no MB WAY (Android e iOS)
-      const urlMbway = `mbway://sendmoney?phone=${numero}&amount=${valor}`;
+      const urlMbway = `mbway://sendmoney?phone=${encodeURIComponent(numero)}&amount=${encodeURIComponent(valor)}`;
       window.location.href = urlMbway;
-
-      // fallback: abre site oficial se o app não abrir
-      setTimeout(() => {
-        window.open("https://www.mbway.pt/", "_blank");
-      }, 1000);
+      setTimeout(() => window.open("https://www.mbway.pt/", "_blank"), 1000);
     };
+
+    function mostrarMensagem(texto, cor = "#222") {
+      const msg = document.getElementById("msg");
+      msg.textContent = texto;
+      msg.style.color = cor;
+      msg.style.opacity = "1";
+      setTimeout(() => { msg.style.opacity = "0.2"; }, 3000);
+    }
+
+    calcularTotal();
   </script>
 </body>
 </html>
