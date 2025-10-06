@@ -16,32 +16,6 @@
       --sombra: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --cor-fundo: #1e1e1e;
-        --cor-principal: #fff;
-        --cor-branco: #2a2a2a;
-        --cor-hover: #f8f8f8;
-        --cor-destaque: #e1b24c;
-      }
-      body {
-        color: #f4f4f4;
-      }
-      .aviso {
-        background: #2b2b2b;
-        border-left-color: var(--cor-destaque);
-      }
-      .categoria {
-        background: #2a2a2a;
-        border-color: #444;
-      }
-      select {
-        background: #3a3a3a;
-        color: #f4f4f4;
-        border-color: #666;
-      }
-    }
-
     body {
       font-family: 'Quicksand', sans-serif;
       margin: 0 auto;
@@ -52,28 +26,20 @@
       transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    /* Título com logo e estilo */
+    /* Título estilizado */
     .titulo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
       margin-top: 0.5em;
       animation: fadeDown 0.7s ease-out;
     }
 
-    .titulo img {
-      width: 90px;
-      margin-bottom: 8px;
-    }
-
     .titulo h1 {
-      font-size: 1.9em;
+      font-size: 2em;
       color: var(--cor-principal);
-      letter-spacing: 0.8px;
+      letter-spacing: 1px;
       text-transform: uppercase;
       border-bottom: 2px solid var(--cor-destaque);
-      padding-bottom: 4px;
+      padding-bottom: 6px;
       margin: 0;
     }
 
@@ -200,12 +166,6 @@
       margin-top: 2em;
       opacity: 0.8;
     }
-
-    .logo-mbway {
-      width: 90px;
-      display: block;
-      margin: 0 auto;
-    }
   </style>
 </head>
 
@@ -217,7 +177,6 @@
   </p>
 
   <div class="titulo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/MB_Way_logo.svg" alt="MB WAY logo">
     <h1>Pão D'Alho</h1>
   </div>
 
@@ -233,10 +192,7 @@
 
   <button id="reset">Reset</button>
   <button id="copiar">Copiar número</button>
-
-  <button id="mbway">
-    <img class="logo-mbway" src="https://upload.wikimedia.org/wikipedia/commons/7/70/MB_Way_logo.svg" alt="MB WAY">
-  </button>
+  <button id="mbway">MB WAY</button>
 
   <p id="msg"></p>
 
