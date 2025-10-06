@@ -29,6 +29,15 @@
       border-radius: 4px;
       font-weight: 600;
     }
+    .aviso {
+      background: #fff2e0;
+      border-left: 4px solid #d89b3d;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      font-size: 0.95em;
+      color: #4b3d1f;
+    }
     .categoria {
       background: #fffaf3;
       border: 1px solid #ddd;
@@ -97,7 +106,12 @@
        alt="Pastelaria" class="banner">
 
   <h1>Pão d'Alho MB WAY</h1>
-  <p>Destinatário: <span id="para" class="mono"></span></p>
+
+  <p class="aviso">
+    Infelizmente o nosso terminal multibanco está temporariamente fora de serviço,
+    para pagamentos MB WAY envie para o seguinte destinatário:
+  </p>
+  <p><span id="para" class="mono"></span></p>
 
   <div id="lista"></div>
 
@@ -209,12 +223,13 @@
     };
 
     document.getElementById("pagar").onclick = () => {
-      // Tenta abrir diretamente a página de envio do MB WAY
+      if (total <= 0) {
+        alert("Por favor, selecione pelo menos um item antes de pagar.");
+        return;
+      }
       const valor = total.toFixed(2);
       const urlMbway = `mbway://sendmoney?phone=${numero}&amount=${valor}`;
       window.location.href = urlMbway;
-
-      // Se não abrir, redireciona para o site oficial após 1 segundo
       setTimeout(() => {
         window.open("https://www.mbway.pt", "_blank");
       }, 1000);
