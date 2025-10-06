@@ -61,8 +61,17 @@
       font-size: 1.4em;
       font-weight: bold;
       margin-top: 12px;
+      text-align: center;
+    }
+    #info {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.95em;
+      color: #444;
     }
     button {
+      display: block;
+      width: 100%;
       margin-top: 1em;
       padding: 10px 15px;
       background: #1f1f1f;
@@ -76,15 +85,10 @@
     button:hover {
       background: #333;
     }
-    #msg, #info, #rodape {
+    #msg {
       text-align: center;
       margin-top: 10px;
       font-size: 0.95em;
-    }
-    #rodape {
-      font-style: italic;
-      color: #555;
-      margin-top: 25px;
     }
   </style>
 </head>
@@ -97,15 +101,13 @@
 
   <div id="lista"></div>
 
-  <p id="info">Insira seu primeiro nome na descrição.</p>
   <p id="pagamento">Pagamento total: 0,00 €</p>
+  <p id="info">Por favor, insira seu nome na descrição e confirme com o colaborador após o pagamento.</p>
 
   <button id="reset">Reset</button>
   <button id="copiar">Copiar destinatário</button>
   <button id="pagar">Pagar via MB WAY</button>
   <p id="msg"></p>
-
-  <p id="rodape">Por favor, confirme com o colaborador após o pagamento.</p>
 
   <script>
     const produtos = {
@@ -207,9 +209,12 @@
     };
 
     document.getElementById("pagar").onclick = () => {
+      // Tenta abrir diretamente a página de envio do MB WAY
       const valor = total.toFixed(2);
-      const urlMbway = `mbway://pay?amount=${valor}&phone=${numero}`;
+      const urlMbway = `mbway://sendmoney?phone=${numero}&amount=${valor}`;
       window.location.href = urlMbway;
+
+      // Se não abrir, redireciona para o site oficial após 1 segundo
       setTimeout(() => {
         window.open("https://www.mbway.pt", "_blank");
       }, 1000);
