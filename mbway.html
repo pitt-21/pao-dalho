@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pão d'Alho MB WAY</title>
+  <title>Pão D'Alho MB WAY</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --cor-principal: #1f1f1f;
@@ -15,6 +16,32 @@
       --sombra: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
 
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cor-fundo: #1e1e1e;
+        --cor-principal: #fff;
+        --cor-branco: #2a2a2a;
+        --cor-hover: #f8f8f8;
+        --cor-destaque: #e1b24c;
+      }
+      body {
+        color: #f4f4f4;
+      }
+      .aviso {
+        background: #2b2b2b;
+        border-left-color: var(--cor-destaque);
+      }
+      .categoria {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+      select {
+        background: #3a3a3a;
+        color: #f4f4f4;
+        border-color: #666;
+      }
+    }
+
     body {
       font-family: 'Quicksand', sans-serif;
       margin: 0 auto;
@@ -22,15 +49,32 @@
       background-color: var(--cor-fundo);
       color: #222;
       padding: 1.5em;
-      transition: background-color 0.4s ease;
+      transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    h1 {
-      color: #2a2a2a;
+    /* Título com logo e estilo */
+    .titulo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
       margin-top: 0.5em;
-      letter-spacing: 0.5px;
       animation: fadeDown 0.7s ease-out;
+    }
+
+    .titulo img {
+      width: 90px;
+      margin-bottom: 8px;
+    }
+
+    .titulo h1 {
+      font-size: 1.9em;
+      color: var(--cor-principal);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--cor-destaque);
+      padding-bottom: 4px;
+      margin: 0;
     }
 
     @keyframes fadeDown {
@@ -65,7 +109,6 @@
     }
 
     .categoria {
-      background: #fffaf3;
       border: 1px solid #ddd;
       border-radius: 12px;
       margin: 20px 0;
@@ -73,9 +116,7 @@
       box-shadow: var(--sombra);
       transition: transform 0.2s ease;
     }
-    .categoria:hover {
-      transform: scale(1.01);
-    }
+    .categoria:hover { transform: scale(1.01); }
 
     .categoria h2 {
       color: #3b3b3b;
@@ -93,13 +134,9 @@
       border-radius: 6px;
       padding: 3px 6px;
     }
-    .item:hover {
-      background: rgba(255, 255, 255, 0.7);
-    }
+    .item:hover { background: rgba(255,255,255,0.7); }
 
-    .item-name {
-      font-weight: 600;
-    }
+    .item-name { font-weight: 600; }
 
     select {
       padding: 5px 8px;
@@ -119,6 +156,7 @@
       border-radius: 10px;
       padding: 8px;
       box-shadow: var(--sombra);
+      transition: background 0.4s ease;
     }
 
     #info {
@@ -143,15 +181,8 @@
       transition: background 0.3s, transform 0.15s;
       box-shadow: var(--sombra);
     }
-
-    button:hover {
-      background: var(--cor-hover);
-      transform: translateY(-2px);
-    }
-
-    button:active {
-      transform: translateY(1px);
-    }
+    button:hover { background: var(--cor-hover); transform: translateY(-2px); }
+    button:active { transform: translateY(1px); }
 
     #msg {
       text-align: center;
@@ -169,8 +200,15 @@
       margin-top: 2em;
       opacity: 0.8;
     }
+
+    .logo-mbway {
+      width: 90px;
+      display: block;
+      margin: 0 auto;
+    }
   </style>
 </head>
+
 <body>
 
   <p class="aviso">
@@ -178,10 +216,15 @@
     Para pagamentos MB WAY envie para um dos seguintes destinatários.
   </p>
 
-  <h1>Pão d'Alho MB WAY</h1>
+  <div class="titulo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/MB_Way_logo.svg" alt="MB WAY logo">
+    <h1>Pão D'Alho</h1>
+  </div>
 
   <p><strong>Destinatários:</strong></p>
   <p><span id="para" class="mono"></span></p>
+
+  <p style="font-weight:600; margin-top:20px;">Verifique o valor do seu consumo:</p>
 
   <div id="lista"></div>
 
@@ -190,10 +233,17 @@
 
   <button id="reset">Reset</button>
   <button id="copiar">Copiar número</button>
-  <button id="mbway">MB WAY</button>
+
+  <button id="mbway">
+    <img class="logo-mbway" src="https://upload.wikimedia.org/wikipedia/commons/7/70/MB_Way_logo.svg" alt="MB WAY">
+  </button>
+
   <p id="msg"></p>
 
-  <footer>© 2025 Pão d'Alho — Todos os direitos reservados</footer>
+  <footer>
+    © 2025 Pão D'Alho — Pagamentos MB WAY diretos e seguros.<br>
+    Não guardamos dados pessoais nem registos de transações.
+  </footer>
 
   <script>
     const produtos = {
@@ -204,19 +254,13 @@
         { nome: "Sumo natural", preco: 2.00 },
         { nome: "Café", preco: 0.85 }
       ],
-      "Doces": [
-        { nome: "Pastelaria diversa", preco: 1.00 }
-      ],
-      "Almoços": [
-        { nome: "Tosta mista", preco: 2.50 }
-      ],
-      "Salgados": [
-        { nome: "Pão d'Alho", preco: 1.50 }
-      ]
+      "Doces": [{ nome: "Pastelaria diversa", preco: 1.00 }],
+      "Almoços": [{ nome: "Tosta mista", preco: 2.50 }],
+      "Salgados": [{ nome: "Pão d'Alho", preco: 1.50 }]
     };
 
     const params = new URLSearchParams(window.location.search);
-    const numero = (params.get("para") || "—").replace(/[^\d+]/g, ""); // sanitiza entrada
+    const numero = (params.get("para") || "—").replace(/[^\d+]/g, "");
     document.getElementById("para").textContent = "Pão D’alho – " + numero;
 
     const lista = document.getElementById("lista");
@@ -275,16 +319,14 @@
       const valorFormatado = total.toFixed(2).replace(".", ",");
       const elementoPagamento = document.getElementById("pagamento");
       elementoPagamento.textContent = "Pagamento total: " + valorFormatado + " €";
-
       elementoPagamento.style.background = total > 0 ? "#fff8e6" : "#fff";
-      elementoPagamento.style.transition = "background 0.4s ease";
     }
 
     document.getElementById("reset").onclick = () => {
       document.querySelectorAll("select").forEach(s => s.value = 0);
       Object.keys(quantidades).forEach(k => quantidades[k] = 0);
       calcularTotal();
-      mostrarMensagem("Seleção reiniciada.", "#444");
+      mostrarMensagem("Seleção reiniciada.", "#666");
     };
 
     document.getElementById("copiar").onclick = async () => {
