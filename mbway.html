@@ -1,112 +1,276 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pão d'Alho MB WAY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: sans-serif; margin: 2em; max-width: 600px; }
-    h1 { color: #0b73ff; }
-    .mono { background: #f0f0f0; padding: 3px 6px; border-radius: 4px; }
-    .item {
-      border: 1px solid #ddd; border-radius: 8px;
-      padding: 10px 12px; margin: 8px 0;
-      display: flex; justify-content: space-between; align-items: center;
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: #f8f4ef;
+      color: #2b2b2b;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
     }
-    .item-name { font-weight: 600; }
-    select { padding: 4px; font-size: 1em; border-radius: 4px; }
-    #total { font-size: 1.4em; font-weight: bold; margin-top: 12px; }
+
+    main {
+      max-width: 600px;
+      width: 90%;
+      margin-top: 2em;
+      background-color: #fffaf3;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 2em;
+    }
+
+    h1 {
+      color: #1a1a1a;
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 0.5em;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 1.5em;
+    }
+
+    h2 {
+      color: #4b3d2f;
+      margin-top: 1.8em;
+      border-bottom: 2px solid #d8c4a5;
+      padding-bottom: 4px;
+    }
+
+    .mono {
+      background: #f0e6d6;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .item {
+      border: 1px solid #ddd0b5;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fffdf8;
+    }
+
+    .item-name {
+      font-weight: 600;
+      color: #2b2b2b;
+    }
+
+    select {
+      padding: 4px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #c6b38e;
+      background-color: #fdfaf5;
+    }
+
+    #total {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-top: 12px;
+      text-align: right;
+      color: #1a1a1a;
+    }
+
     button {
-      margin-top: 1em; padding: 10px 15px; background: #0b73ff;
-      color: white; border: none; border-radius: 8px; cursor: pointer;
+      margin-top: 1em;
+      padding: 10px 15px;
+      background: #2b2b2b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: #4b3d2f;
+    }
+
+    #msg, #info {
+      margin-top: 8px;
+      font-size: 0.9em;
+      color: #4b3d2f;
+    }
+
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #4b3d2f;
+      margin-top: 2em;
+      border-top: 1px solid #d8c4a5;
+      padding-top: 1em;
     }
   </style>
 </head>
 <body>
-  <h1>Pão d'Alho MB WAY</h1>
-  <p>Destinatário: <span id="para" class="mono"></span></p>
+  <main>
+    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Pastelaria">
 
-  <h2>Seleciona os itens</h2>
-  <div id="lista"></div>
+    <h1>Pão d'Alho MB WAY</h1>
+    <p>Destinatário: <span id="para" class="mono"></span></p>
 
-  <p id="total">Total: 0,00 €</p>
+    <h2>🥤 Bebidas</h2>
+    <div id="bebidas"></div>
 
-  <button id="copiar">Copiar destinatário</button>
-  <p id="msg"></p>
+    <h2>🍰 Doces</h2>
+    <div id="doces"></div>
+
+    <h2>🥪 Almoços</h2>
+    <div id="almoços"></div>
+
+    <h2>🧀 Salgados</h2>
+    <div id="salgados"></div>
+
+    <p id="info">Insira seu primeiro nome na descrição.</p>
+    <p id="total">Total: 0,00 €</p>
+
+    <div class="btns">
+      <button id="copiar">Copiar destinatário</button>
+      <button id="pagamento">Pagamento total</button>
+      <button id="reset">Reset</button>
+    </div>
+
+    <p id="msg"></p>
+
+    <footer>
+      Por favor, confirme com o colaborador após o pagamento.
+    </footer>
+  </main>
 
   <script>
-    // Lista de produtos
-    const produtos = [
-      { nome: "Fino", preco: 1.20 },
-      { nome: "Café", preco: 0.80 },
-      { nome: "Tosta mista", preco: 2.50 },
-      { nome: "Sumo natural", preco: 2.00 },
-      { nome: "Água", preco: 1.00 }
-    ];
+    const produtos = {
+      "Bebidas": [
+        { nome: "Água", preco: 1.00 },
+        { nome: "Água das pedras", preco: 1.50 },
+        { nome: "Fino", preco: 1.20 },
+        { nome: "Sumo natural", preco: 2.00 }
+      ],
+      "Doces": [
+        { nome: "Pastelaria diversa", preco: 1.00 },
+        { nome: "Café", preco: 0.85 }
+      ],
+      "Almoços": [
+        { nome: "Tosta mista", preco: 2.50 }
+      ],
+      "Salgados": [
+        // podes adicionar mais produtos aqui se quiseres
+      ]
+    };
 
-    // Lê o número do URL
     const params = new URLSearchParams(window.location.search);
     const numero = params.get("para") || "—";
-    document.getElementById("para").textContent = numero;
+    const destinatario = "Sr. Filipe – " + numero;
+    document.getElementById("para").textContent = destinatario;
 
-    const lista = document.getElementById("lista");
     let total = 0;
-    const quantidades = {}; // guarda as quantidades selecionadas
+    const quantidades = {};
 
-    // Cria elementos da lista
-    produtos.forEach((p, i) => {
-      const div = document.createElement("div");
-      div.className = "item";
+    function criarItens(categoria, id) {
+      const container = document.getElementById(id);
+      produtos[categoria].forEach((p) => {
+        const div = document.createElement("div");
+        div.className = "item";
 
-      const nome = document.createElement("span");
-      nome.className = "item-name";
-      nome.textContent = p.nome;
+        const nome = document.createElement("span");
+        nome.className = "item-name";
+        nome.textContent = p.nome;
 
-      const select = document.createElement("select");
-      for (let q = 0; q <= 10; q++) {
-        const opt = document.createElement("option");
-        opt.value = q;
-        opt.textContent = q;
-        select.appendChild(opt);
-      }
+        const select = document.createElement("select");
+        for (let q = 0; q <= 10; q++) {
+          const opt = document.createElement("option");
+          opt.value = q;
+          opt.textContent = q;
+          select.appendChild(opt);
+        }
 
-      select.onchange = () => {
-        quantidades[p.nome] = Number(select.value);
-        calcularTotal();
-      };
+        select.onchange = () => {
+          quantidades[p.nome] = Number(select.value);
+          calcularTotal();
+        };
 
-      const preco = document.createElement("span");
-      preco.textContent = p.preco.toFixed(2) + " €";
+        const preco = document.createElement("span");
+        preco.textContent = p.preco.toFixed(2) + " €";
 
-      const right = document.createElement("div");
-      right.appendChild(preco);
-      right.appendChild(select);
-      right.style.display = "flex";
-      right.style.gap = "10px";
-      right.style.alignItems = "center";
+        const right = document.createElement("div");
+        right.appendChild(preco);
+        right.appendChild(select);
+        right.style.display = "flex";
+        right.style.gap = "10px";
+        right.style.alignItems = "center";
 
-      div.appendChild(nome);
-      div.appendChild(right);
-      lista.appendChild(div);
+        div.appendChild(nome);
+        div.appendChild(right);
+        container.appendChild(div);
 
-      quantidades[p.nome] = 0;
-    });
+        quantidades[p.nome] = 0;
+      });
+    }
+
+    for (const categoria in produtos) {
+      const id = categoria.toLowerCase();
+      criarItens(categoria, id);
+    }
 
     function calcularTotal() {
-      total = produtos.reduce((acc, p) => acc + p.preco * quantidades[p.nome], 0);
+      total = 0;
+      for (const categoria in produtos) {
+        produtos[categoria].forEach((p) => {
+          total += p.preco * (quantidades[p.nome] || 0);
+        });
+      }
       document.getElementById("total").textContent =
         "Total: " + total.toFixed(2).replace(".", ",") + " €";
     }
 
-    // Botão copiar apenas o número
     document.getElementById("copiar").onclick = async () => {
       try {
         await navigator.clipboard.writeText(numero);
-        document.getElementById("msg").textContent = "Número copiado: " + numero;
+        document.getElementById("msg").textContent = "Número copiado";
       } catch {
-        document.getElementById("msg").textContent =
-          "Não foi possível copiar automaticamente.";
+        document.getElementById("msg").textContent = "Não foi possível copiar automaticamente.";
       }
+    };
+
+    document.getElementById("pagamento").onclick = async () => {
+      if (total <= 0) {
+        document.getElementById("msg").textContent = "Por favor, selecione pelo menos um item.";
+        return;
+      }
+      const mensagem = `Pagamento MB WAY – ${destinatario} – Total: ${total.toFixed(2)} €`;
+      try {
+        await navigator.clipboard.writeText(mensagem);
+        document.getElementById("msg").textContent = "Mensagem de pagamento copiada!";
+      } catch {
+        document.getElementById("msg").textContent = "Não foi possível copiar a mensagem automaticamente.";
+      }
+    };
+
+    document.getElementById("reset").onclick = () => {
+      for (const nome in quantidades) quantidades[nome] = 0;
+      document.querySelectorAll("select").forEach(sel => sel.value = 0);
+      calcularTotal();
+      document.getElementById("msg").textContent = "";
     };
   </script>
 </body>
