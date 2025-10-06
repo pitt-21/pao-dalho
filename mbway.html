@@ -17,26 +17,22 @@
     h1 {
       color: #2a2a2a;
       text-align: center;
+      margin-top: 0.5em;
     }
-    .banner {
-      width: 100%;
-      border-radius: 12px;
-      margin-bottom: 1.5em;
+    .aviso {
+      background: #fff2e0;
+      border-left: 4px solid #d89b3d;
+      padding: 12px 14px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      font-size: 0.95em;
+      color: #4b3d1f;
     }
     .mono {
       background: #f0f0f0;
       padding: 3px 6px;
       border-radius: 4px;
       font-weight: 600;
-    }
-    .aviso {
-      background: #fff2e0;
-      border-left: 4px solid #d89b3d;
-      padding: 10px 12px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      font-size: 0.95em;
-      color: #4b3d1f;
     }
     .categoria {
       background: #fffaf3;
@@ -102,15 +98,15 @@
   </style>
 </head>
 <body>
-  <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?auto=format&fit=crop&w=1200&q=80"
-       alt="Pastelaria" class="banner">
+
+  <p class="aviso">
+    Infelizmente o nosso terminal multibanco está temporiariamente fora de serviço.
+    Para pagamentos MB WAY envie para um dos seguintes destinatários.
+  </p>
 
   <h1>Pão d'Alho MB WAY</h1>
 
-  <p class="aviso">
-    Infelizmente o nosso terminal multibanco está temporariamente fora de serviço,
-    para pagamentos MB WAY envie para o seguinte destinatário:
-  </p>
+  <p><strong>Destinatários:</strong></p>
   <p><span id="para" class="mono"></span></p>
 
   <div id="lista"></div>
@@ -119,8 +115,8 @@
   <p id="info">Por favor, insira seu nome na descrição e confirme com o colaborador após o pagamento.</p>
 
   <button id="reset">Reset</button>
-  <button id="copiar">Copiar destinatário</button>
-  <button id="pagar">Pagar via MB WAY</button>
+  <button id="copiar">Copiar número</button>
+  <button id="mbway">MB WAY</button>
   <p id="msg"></p>
 
   <script>
@@ -222,16 +218,20 @@
       }
     };
 
-    document.getElementById("pagar").onclick = () => {
+    document.getElementById("mbway").onclick = () => {
       if (total <= 0) {
         alert("Por favor, selecione pelo menos um item antes de pagar.");
         return;
       }
+
       const valor = total.toFixed(2);
+      // link direto para envio no MB WAY (Android e iOS)
       const urlMbway = `mbway://sendmoney?phone=${numero}&amount=${valor}`;
       window.location.href = urlMbway;
+
+      // fallback: abre site oficial se o app não abrir
       setTimeout(() => {
-        window.open("https://www.mbway.pt", "_blank");
+        window.open("https://www.mbway.pt/", "_blank");
       }, 1000);
     };
   </script>
